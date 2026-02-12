@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('prix_base', 10, 2); // Pour le calcul automatique
             $table->json('images')->nullable(); // Stockage des chemins d'images (galerie)
+            $table->foreignId('user_id')->nullable()->constrained(); // Créateur
             $table->timestamps();
         });
     }

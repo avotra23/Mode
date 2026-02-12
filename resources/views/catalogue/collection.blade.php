@@ -9,11 +9,17 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         @foreach($collections as $collection)
-        <a href="#" class="group relative overflow-hidden bg-gray-900 aspect-[16/9]">
-            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200"
-                 class="object-cover w-full h-full opacity-60 group-hover:scale-110 transition-transform duration-700">
+        @php
+            // On essaie de prendre l'image du premier modèle de la collection pour le fond
+            $firstModel = $collection->modeles->first();
+            $bgImage = ($firstModel && $firstModel->images) ? asset('storage/' . $firstModel->images[0]) : 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200';
+        @endphp
 
-            <div class="absolute inset-0 flex flex-col justify-center items-center text-white p-8">
+        <a href="{{ route('catalogue.index', ['collection' => $collection->id]) }}" class="group relative overflow-hidden bg-gray-900 aspect-[16/9]">
+            <img src="{{ $bgImage }}"
+                 class="object-cover w-full h-full opacity-50 group-hover:scale-110 transition-transform duration-700">
+
+            <div class="absolute inset-0 flex flex-col justify-center items-center text-white p-8 text-center">
                 <span class="text-xs uppercase tracking-[0.3em] mb-2">{{ $collection->annee }}</span>
                 <h2 class="text-4xl font-serif italic tracking-wider">{{ $collection->nom }}</h2>
                 <div class="mt-6 px-6 py-2 border border-white text-xs uppercase font-bold tracking-widest group-hover:bg-white group-hover:text-black transition-colors">

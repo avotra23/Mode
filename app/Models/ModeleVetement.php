@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Collection;
+use App\Models\Option;
 class ModeleVetement extends Model
 {
     protected $fillable = ['id','collection_id', 'nom', 'description', 'prix_base', 'images'];
@@ -22,6 +23,8 @@ class ModeleVetement extends Model
     // Un modèle peut avoir plusieurs options (Plusieurs tissus, plusieurs tailles)
     public function options()
     {
-        return $this->belongsToMany(Option::class, 'modele_option');
+        return $this->belongsToMany(Option::class, 'model_options')
+                            ->withPivot('stock')
+                            ->withTimestamps();
     }
 }

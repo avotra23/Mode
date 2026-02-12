@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\ModeleVetement;
+use App\Models\User;
 class Commande extends Model
 {
     protected $fillable = [

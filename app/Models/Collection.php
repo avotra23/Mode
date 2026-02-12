@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\ModeleVetement;
 class Collection extends Model
 {
-    protected $fillable = ['nom', 'saison', 'annee', 'description', 'est_active'];
+    protected $fillable = ['nom', 'saison', 'annee', 'description', 'est_active', 'image', 'user_id'];
 
     // Une collection possède plusieurs modèles de vêtements
     public function modeles()

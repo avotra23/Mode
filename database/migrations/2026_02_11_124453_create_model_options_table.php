@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('modele_vetement_id')->constrained();
             $table->foreignId('option_id')->constrained();
+            $table->integer('stock')->default(0);
             $table->timestamps();
         });
     }

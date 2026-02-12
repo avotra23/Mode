@@ -16,13 +16,20 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
         @foreach($modeles as $modele)
-        <div class="group relative overflow-hidden" x-data="{ open: false }">
+        <div class="group relative overflow-hidden">
             <div class="relative overflow-hidden aspect-[3/4] bg-gray-100 rounded-sm">
-                <img src="{{ $modele->images[0] }}" alt="{{ $modele->nom }}" class="object-cover w-full h-full hover-scale">
+                {{-- Gestion dynamique de l'image --}}
+                @php
+                    $imagePath = ($modele->images && count($modele->images) > 0) ? $modele->images[0] : null;
+                @endphp
+
+                <img src="{{ $imagePath ? asset('storage/' . $imagePath) : 'https://via.placeholder.com/800x1000?text=Image+Indisponible' }}"
+                     alt="{{ $modele->nom }}"
+                     class="object-cover w-full h-full hover-scale">
 
                 <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                     <a href="{{ route('catalogue.show', $modele->id) }}"
-                       class="w-full bg-white text-black py-4 text-center text-xs uppercase font-bold tracking-widest translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                       class="w-full bg-white text-black py-4 text-center text-xs uppercase font-bold tracking-widest translate-y-4 group-hover:translate-y-0 transition-transform duration-500 shadow-sm">
                         Voir les détails
                     </a>
                 </div>
@@ -31,7 +38,9 @@
             <div class="mt-6 flex justify-between items-start">
                 <div>
                     <h3 class="text-lg font-serif italic">{{ $modele->nom }}</h3>
-                    <p class="text-xs text-orange-800 font-bold uppercase tracking-tighter">{{ $modele->collection->nom }}</p>
+                    <p class="text-xs text-orange-800 font-bold uppercase tracking-tighter">
+                        {{ $modele->collection->nom ?? 'Nouvelle Collection' }}
+                    </p>
                 </div>
                 <p class="font-medium text-sm">{{ number_format($modele->prix_base, 0, ',', ' ') }} FCFA</p>
             </div>

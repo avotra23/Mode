@@ -24,8 +24,10 @@
                 <div class="group bg-white border border-orange-50 hover:border-orange-200 transition-all duration-300 p-6 md:p-8 shadow-sm hover:shadow-md">
                     <div class="flex flex-col md:flex-row gap-8">
                         <div class="w-full md:w-32 h-40 bg-gray-50 flex-shrink-0 overflow-hidden">
-                            @if($commande->modelet && $commande->modele->image)
-                                <img src="{{ asset('storage/'.$commande->modele->image) }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                            @if($commande->modele && $commande->modele->images && count($commande->modele->images) > 0)
+                                {{-- On récupère la première image du tableau JSON --}}
+                                <img src="{{ asset('storage/' . $commande->modele->images[0]) }}" 
+                                    class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-orange-200">
                                     <i class="fa-solid fa-shirt text-3xl"></i>
@@ -45,8 +47,21 @@
                                 </div>
                                 <div class="text-right">
                                     <p class="text-lg font-bold text-[#2D241E]">{{ number_format($commande->prix_total, 0, ',', ' ') }} FCFA</p>
-                                    <span class="inline-block px-3 py-1 mt-2 text-[9px] uppercase tracking-[0.2em] font-bold rounded-full
-                                        {{ $commande->statut == 'en_attente' ? 'bg-orange-50 text-orange-700' : 'bg-gray-100 text-gray-600' }}">
+                                    
+                                    {{-- Gestion dynamique des couleurs du badge selon le statut --}}
+                                    @php
+                                        $statusColors = [
+                                            'en_attente'     => 'bg-orange-50 text-orange-700',
+                                            'en_confection'  => 'bg-blue-50 text-blue-700',
+                                            'termine'        => 'bg-green-50 text-green-700',
+                                            'livre'          => 'bg-gray-100 text-gray-600',
+                                            'refuse'         => 'bg-red-50 text-red-700',
+                                            'annule'         => 'bg-gray-50 text-gray-400',
+                                        ];
+                                        $currentStyle = $statusColors[$commande->statut] ?? 'bg-gray-100 text-gray-800';
+                                    @endphp
+
+                                    <span class="inline-block px-3 py-1 mt-2 text-[9px] uppercase tracking-[0.2em] font-bold rounded-full {{ $currentStyle }}">
                                         {{ str_replace('_', ' ', $commande->statut) }}
                                     </span>
                                 </div>
@@ -75,9 +90,7 @@
                                         </span>
                                     @endif
                                     
-                                    <a href="#" class="text-[10px] uppercase tracking-widest font-bold text-[#2D241E] hover:text-orange-700 transition">
-                                        Détails complets →
-                                    </a>
+                                    
                                 </div>
                             </div>
                         </div>

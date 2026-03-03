@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CatalogueController;
 use App\Http\Controllers\CommandeController;
@@ -46,4 +47,16 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
+//Espace admin
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    // Dashboard & Utilisateurs
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/users', [AdminController::class, 'users'])->name('users.index');
+    Route::post('/users/store', [AdminController::class, 'storeUser'])->name('users.store');
+
+    // Gestion des commandes
+    Route::get('/commandes', [AdminController::class, 'commandes'])->name('commandes.index');
+    Route::post('/commandes/{id}/valider', [AdminController::class, 'validerCommande'])->name('commandes.valider');
+    Route::post('/commandes/{id}/refuser', [AdminController::class, 'refuserCommande'])->name('commandes.refuser');
+});
 require __DIR__.'/auth.php';

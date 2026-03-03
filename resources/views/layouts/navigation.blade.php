@@ -9,19 +9,42 @@
             </div>
 
             <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-widest">
-                <a href="{{ route('catalogue.index')}}" class="hover:text-orange-700 transition">Nos Pièces</a>
-                <a href="{{ route('collections.index')}}" class="hover:text-orange-700 transition">Nos Collections</a>
+                {{-- Nos Pièces --}}
+                <a href="{{ route('catalogue.index')}}" 
+                class="hover:text-orange-700 transition {{ request()->routeIs('catalogue.index') ? 'font-bold border-b-2 border-orange-700 text-orange-700' : '' }}">
+                Nos Pièces
+                </a>
+
+                {{-- Nos Collections --}}
+                <a href="{{ route('collections.index')}}" 
+                class="hover:text-orange-700 transition {{ request()->routeIs('collections.index') ? 'font-bold border-b-2 border-orange-700 text-orange-700' : '' }}">
+                Nos Collections
+                </a>
+
                 @auth
-                    @if(Auth::user()->role === 'styliste')
-                        {{-- Lien pour le Styliste --}}
-                        <a href="{{ route('styliste.dashboard') }}" class="hover:text-orange-700 transition font-bold border-b-2 border-orange-700">Atelier</a>
+                    @if(Auth::user()->role === 'admin')
+                        <a href="{{ route('admin.dashboard') }}" 
+                        class="hover:text-orange-700 transition {{ request()->routeIs('admin.*') ? 'font-bold border-b-2 border-orange-700 text-orange-700' : '' }}">
+                        Administration
+                        </a>
+                    @elseif(Auth::user()->role === 'styliste')
+                        {{-- Atelier (Styliste) --}}
+                        <a href="{{ route('styliste.dashboard') }}" 
+                        class="hover:text-orange-700 transition {{ request()->routeIs('styliste.dashboard') ? 'font-bold border-b-2 border-orange-700 text-orange-700' : '' }}">
+                        Atelier
+                        </a>
                     @else
-                        {{-- Lien pour le Client (Remplacez 'commandes.index' par le nom de votre route de liste de commandes) --}}
-                        <a href="{{ route('commandes.index') }}" class="hover:text-orange-700 transition">Mes Commandes</a>
+                        {{-- Mes Commandes (Client) --}}
+                        <a href="{{ route('commandes.index') }}" 
+                        class="hover:text-orange-700 transition {{ request()->routeIs('commandes.index') ? 'font-bold border-b-2 border-orange-700 text-orange-700' : '' }}">
+                        Mes Commandes
+                        </a>
                     @endif
                 @else
-                    {{-- Si pas connecté, on peut rediriger vers la page Nos Pièces ou forcer la connexion --}}
-                    <a  @click="openLoginModal = true" class="hover:text-orange-700 transition">Atelier</a>
+                    {{-- Atelier (Non connecté) --}}
+                    <a @click="openLoginModal = true" class="cursor-pointer hover:text-orange-700 transition">
+                    Atelier
+                    </a>
                 @endauth
             </div>
 

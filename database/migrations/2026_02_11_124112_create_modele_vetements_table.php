@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('modele_vetements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('collection_id')->constrained()->onDelete('cascade');
-            $table->string('nom'); // Ex: "Robe Bazin Royale"
+            $table->string('nom'); 
             $table->text('description')->nullable();
             $table->decimal('prix_base', 10, 2); // Pour le calcul automatique
             $table->json('images')->nullable(); // Stockage des chemins d'images (galerie)

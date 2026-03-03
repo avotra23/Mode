@@ -30,13 +30,14 @@ class CommandeController extends Controller
                 'modele_vetement_id' => $modele->id,
                 'taille_choisie'     => $article['taille'],
                 'tissu_choisi'       => $article['tissu'],
-                'couleur_choisie'    => 'Originale', // Valeur par défaut car absent du formulaire
+                'couleur_choisie'    => 'Originale', 
                 'commentaires_personnalisation' => $article['commentaires'],
                 'prix_total'         => $modele->prix_base,
                 'statut'             => 'en_attente',
                 'date_prevue'        => now()->addDays(14),
-                'telephone_paiement' => $request->telephone, // Nécessite la modif migration
-                'operateur'          => $request->operateur, // Nécessite la modif migration
+                'telephone_paiement' => $request->telephone, 
+                'operateur'          => $request->operateur, 
+                'reponse'=>'',
             ]);
         }
         
@@ -61,12 +62,12 @@ class CommandeController extends Controller
 
 public function destroy(Commande $commande)
     {
-        // Sécurité : Vérifier que la commande appartient bien à l'utilisateur
+        
         if ($commande->user_id !== auth()->id()) {
             return back()->with('error', 'Action non autorisée.');
         }
 
-        // Vérifier si elle est encore "en_attente"
+       
         if ($commande->statut !== 'en_attente') {
             return back()->with('error', 'Impossible d\'annuler une commande déjà en cours de traitement.');
         }

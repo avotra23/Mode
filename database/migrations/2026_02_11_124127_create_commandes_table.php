@@ -24,7 +24,7 @@ return new class extends Migration
             $table->text('commentaires_personnalisation')->nullable();
 
             //En cas de non validation
-            $table->string('reponse');
+            $table->string('reponse')->nullable();
 
 
             $table->decimal('prix_total', 10, 2);

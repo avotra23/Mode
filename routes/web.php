@@ -23,7 +23,8 @@ Route::middleware(['auth'])->group(function () {
     // Client
     Route::get('/commande/validation', [CommandeController::class, 'validation'])->name('commande.validation');
     Route::post('/commande/store', [CommandeController::class, 'store'])->name('commande.store');
-
+    Route::get('/commandes', [CommandeController::class, 'index'])->name('commandes.index');
+    Route::delete('/commandes/{commande}', [CommandeController::class, 'destroy'])->name('commandes.destroy');
     // ESPACE STYLISTE
     Route::prefix('styliste')->name('styliste.')->group(function () {
         Route::get('/dashboard', [StylisteController::class, 'dashboard'])->name('dashboard');

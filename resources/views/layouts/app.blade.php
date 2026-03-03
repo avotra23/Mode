@@ -4,7 +4,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sahel Couture | Mode Africaine de Luxe</title>
+        <title>ASSIAT | La mode autrement</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -45,8 +45,8 @@
     <footer class="bg-[#2D241E] text-[#FDFBF7] pt-20 pb-10 mt-20">
         <div class="max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-white/10 pb-16">
             <div class="col-span-1 md:col-span-1">
-                <div class="text-2xl font-serif font-bold tracking-widest uppercase mb-6">Sahel<span class="text-orange-400">.</span></div>
-                <p class="text-sm text-gray-400 leading-relaxed">Redéfinir l'élégance africaine à travers l'artisanat du Sahel et des textiles d'exception.</p>
+                <div class="text-2xl font-serif font-bold tracking-widest uppercase mb-6">Assiat Mode<span class="text-orange-400">.</span></div>
+                <p class="text-sm text-gray-400 leading-relaxed">Redéfinir l'élégance africaine à travers l'artisanat et des textiles d'exception.</p>
             </div>
             <div>
                 <h4 class="font-bold mb-6 uppercase tracking-widest text-sm">Boutique</h4>
@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="text-center pt-10 text-[10px] text-gray-500 uppercase tracking-[0.2em]">
-            &copy; 2026 Sahel Couture - Tous droits réservés.
+            &copy; 2026 Assiat Couture - Tous droits réservés.
         </div>
     </footer>
 </html>

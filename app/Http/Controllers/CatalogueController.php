@@ -44,6 +44,6 @@ class CatalogueController extends Controller
     public function collections()
     {
         $collections = Collection::latest()->get();
-        return view('catalogue.collections', compact('collections'));
+        return view('catalogue.collection', compact('collections'));
     }
 }

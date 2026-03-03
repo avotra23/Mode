@@ -11,7 +11,18 @@
             <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-widest">
                 <a href="{{ route('catalogue.index')}}" class="hover:text-orange-700 transition">Nos Pièces</a>
                 <a href="{{ route('collections.index')}}" class="hover:text-orange-700 transition">Nos Collections</a>
-                <a href="#" class="hover:text-orange-700 transition">Atelier</a>
+                @auth
+                    @if(Auth::user()->role === 'styliste')
+                        {{-- Lien pour le Styliste --}}
+                        <a href="{{ route('styliste.dashboard') }}" class="hover:text-orange-700 transition font-bold border-b-2 border-orange-700">Atelier</a>
+                    @else
+                        {{-- Lien pour le Client (Remplacez 'commandes.index' par le nom de votre route de liste de commandes) --}}
+                        <a href="{{ route('commandes.index') }}" class="hover:text-orange-700 transition">Mes Commandes</a>
+                    @endif
+                @else
+                    {{-- Si pas connecté, on peut rediriger vers la page Nos Pièces ou forcer la connexion --}}
+                    <a  @click="openLoginModal = true" class="hover:text-orange-700 transition">Atelier</a>
+                @endauth
             </div>
 
             <div class="flex items-center space-x-6">

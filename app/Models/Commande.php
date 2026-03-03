@@ -8,10 +8,11 @@ use App\Models\User;
 class Commande extends Model
 {
     protected $fillable = [
-        'user_id', 'styliste_id', 'modele_vetement_id',
-        'taille_choisie', 'tissu_choisi', 'couleur_choisie',
-        'commentaires_personnalisation', 'prix_total',
-        'statut', 'date_prevue'
+    'user_id', 'styliste_id', 'modele_vetement_id',
+    'taille_choisie', 'tissu_choisi', 'couleur_choisie',
+    'commentaires_personnalisation', 'prix_total',
+    'statut', 'date_prevue',
+    'telephone_paiement', 'operateur','reponse' // À ajouter ici
     ];
 
     // Le client qui a passé la commande

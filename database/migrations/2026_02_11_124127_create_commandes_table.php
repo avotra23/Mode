@@ -23,9 +23,16 @@ return new class extends Migration
             $table->string('couleur_choisie');
             $table->text('commentaires_personnalisation')->nullable();
 
+            //En cas de non validation
+            $table->string('reponse');
+
+
             $table->decimal('prix_total', 10, 2);
             $table->string('statut')->default('en_attente'); // en_attente, en_confection, termine, livre
             $table->date('date_prevue')->nullable();
+
+            $table->string('telephone_paiement'); 
+            $table->string('operateur');
             $table->timestamps();
         });
     }

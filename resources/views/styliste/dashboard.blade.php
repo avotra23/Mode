@@ -23,9 +23,38 @@
                         <span class="text-indigo-600 font-bold uppercase tracking-widest text-xs">{{ $collection->saison }} {{ $collection->annee }}</span>
                     </div>
                 </div>
-                <div class="flex gap-2">
-                    <a href="{{ route('styliste.collections.edit', $collection->id) }}" class="text-xs font-bold border px-4 py-2 rounded-lg hover:bg-white transition">Modifier</a>
-                    <a href="{{ route('styliste.modeles.create', ['collection_id' => $collection->id]) }}" class="text-xs font-bold bg-black text-white px-4 py-2 rounded-lg">+ Ajouter Modèle</a>
+                
+                <div class="flex items-center gap-3">
+                    {{-- Bouton Modifier --}}
+                    <a href="{{ route('styliste.collections.edit', $collection->id) }}" 
+                    class="text-xs font-bold border border-gray-200 px-4 py-2 rounded-lg hover:bg-white hover:border-indigo-300 transition-all">
+                        Modifier
+                    </a>
+
+                    {{-- BOUTON SUPPRIMER COLLECTION AVEC SWEETALERT --}}
+                    <form action="{{ route('styliste.collections.destroy', $collection->id) }}" 
+                        method="POST" 
+                        id="delete-form-collection-{{ $collection->id }}"
+                        class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" 
+                                onclick="confirmDeleteCollection({{ $collection->id }}, '{{ addslashes($collection->nom) }}')"
+                                class="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                title="Supprimer la collection">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                    </form>
+
+                    <div class="h-8 w-[1px] bg-gray-200 mx-2"></div> {{-- Séparateur visuel --}}
+
+                    {{-- Bouton Ajouter Modèle --}}
+                    <a href="{{ route('styliste.modeles.create', ['collection_id' => $collection->id]) }}" 
+                    class="text-xs font-bold bg-black text-white px-4 py-2 rounded-lg hover:bg-indigo-600 shadow-md transition-all">
+                        + Ajouter Modèle
+                    </a>
                 </div>
             </div>
 
@@ -67,4 +96,27 @@
         @endforeach
     </div>
 </div>
+
+<script>
+function confirmDeleteCollection(id, name) {
+    Swal.fire({
+        title: 'Supprimer la collection ?',
+        text: `Êtes-vous sûr de vouloir supprimer "${name}" ? Cette action supprimera également tous les modèles associés.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#000000', // Noir comme votre bouton "Ajouter"
+        cancelButtonColor: '#ef4444', // Rouge Tailwind
+        confirmButtonText: 'Oui, supprimer !',
+        cancelButtonText: 'Annuler',
+        reverseButtons: true,
+        background: '#ffffff',
+        borderRadius: '1.5rem' // Pour matcher avec vos rounded-3xl
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Soumission du formulaire spécifique
+            document.getElementById('delete-form-collection-' + id).submit();
+        }
+    })
+}
+</script>
 @endsection

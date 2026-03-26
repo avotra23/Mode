@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Commande;
 use App\Models\ModeleVetement;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class CommandeController extends Controller
         return view('commande.validation');
     }
 
-    public function store(Request $request) {
+    /*public function store(Request $request) {
         $request->validate([
             'articles' => 'required|array',
             'telephone' => 'required|string',
@@ -42,6 +42,46 @@ class CommandeController extends Controller
         }
         
         return redirect()->route('catalogue.index')->with('success', 'Commande validée !');
+    }*/
+
+    public function store(Request $request) {
+        $request->validate([
+            'articles' => 'required|array',
+            'telephone' => 'required|string',
+            'operateur' => 'required|string',
+        ]);
+
+        $nouvellesCommandes = collect();
+
+        foreach ($request->articles as $article) {
+            $modele = ModeleVetement::findOrFail($article['modele_id']);
+
+            $commande = Commande::create([
+                'user_id'            => auth()->id(),
+                'styliste_id'        => $modele->user_id,
+                'modele_vetement_id' => $modele->id,
+                'taille_choisie'     => $article['taille'],
+                'tissu_choisi'       => $article['tissu'],
+                'couleur_choisie'    => 'Originale', 
+                'commentaires_personnalisation' => $article['commentaires'],
+                'prix_total'         => $modele->prix_base,
+                'statut'             => 'en_attente',
+                'date_prevue'        => now()->addDays(14),
+                'telephone_paiement' => $request->telephone, 
+                'operateur'          => $request->operateur, 
+                'reponse'            => '',
+            ]);
+            
+            $nouvellesCommandes->push($commande->load('modele'));
+        }
+
+        // Génération du PDF
+        $pdf = Pdf::loadView('commande.facture', ['commandes' => $nouvellesCommandes]);
+
+        // On vide le panier côté serveur si nécessaire (déjà fait en JS via localStorage)
+        
+        // Retourne le PDF en téléchargement
+        return $pdf->download('facture_commande_' . time() . '.pdf');
     }
     public function index(Request $request)
         {

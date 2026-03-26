@@ -24,6 +24,19 @@
             selectedSize: '',
             selectedStock: null,
             activeImage: 0,
+            // --- NOUVELLES DONNÉES ---
+            basePrice: {{ $modele->prix_base }},
+            currency: 'FCFA',
+            rates: {
+                'FCFA': 1,
+                'EUR': 0.0015,     // Exemple: 1 FCFA = 0.0015 €
+                'USD': 0.0016,     // Exemple: 1 FCFA = 0.0016 $
+                'MGA': 7.5         // Exemple: 1 FCFA = 7.5 Ar
+            },
+            get convertedPrice() {
+                let price = this.basePrice * this.rates[this.currency];
+                return new Intl.NumberFormat('fr-FR').format(Math.round(price));
+            },
             zoom: false,
             zoomX: 0,
             zoomY: 0,
@@ -122,10 +135,23 @@
                         {{ $modele->nom }}
                     </h1>
 
-                    {{-- Prix --}}
-                    <div class="flex items-baseline gap-3">
-                        <span class="text-4xl font-light text-[#2D241E]">{{ number_format($modele->prix_base, 0, ',', ' ') }}</span>
-                        <span class="text-sm text-gray-400 uppercase tracking-widest">FCFA</span>
+                    {{-- Prix et Sélecteur de Devise --}}
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-baseline gap-3">
+                            <span class="text-4xl font-light text-[#2D241E]" x-text="convertedPrice"></span>
+                            <span class="text-sm text-gray-400 uppercase tracking-widest" x-text="currency"></span>
+                        </div>
+                        
+                        {{-- Sélecteur de devise style minimaliste --}}
+                        <div class="flex gap-3 mt-1">
+                            <template x-for="curr in ['FCFA', 'EUR', 'USD', 'MGA']">
+                                <button @click="currency = curr" 
+                                        :class="currency === curr ? 'text-orange-700 font-bold border-b-2 border-orange-700' : 'text-gray-400 hover:text-gray-600'"
+                                        class="text-[10px] uppercase tracking-tighter pb-1 transition-all" 
+                                        x-text="curr">
+                                </button>
+                            </template>
+                        </div>
                     </div>
 
                     {{-- Note moyenne (déco) --}}
@@ -204,6 +230,7 @@
                             nom: '{{ addslashes($modele->nom) }}',
                             taille: selectedSize,
                             prix: {{ $modele->prix_base }},
+                            devise: currency,
                             image: '{{ ($modele->images && count($modele->images) > 0) ? asset('storage/'.$modele->images[0]) : '' }}'
                         })"
                         :class="selectedSize ? 'bg-[#1A110C] hover:bg-black shadow-xl shadow-[#1A110C]/20' : 'bg-[#2D241E]/70 cursor-not-allowed'"

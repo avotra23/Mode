@@ -235,9 +235,7 @@
 
             {{-- Collage d'images --}}
             <div class="relative h-[500px] hidden lg:block scroll-reveal" style="transition-delay:200ms">
-                <div class="absolute top-0 left-0 w-[55%] aspect-[3/4] overflow-hidden shadow-2xl border border-white/10">
-                    <img src="https://images.unsplash.com/photo-1558171813-0d5e4c1c3028?q=80&w=600" alt="Atelier" class="w-full h-full object-cover hover:scale-105 transition-transform duration-1000">
-                </div>
+               
                 <div class="absolute bottom-0 right-0 w-[50%] aspect-[4/5] overflow-hidden shadow-2xl border border-orange-500/20">
                     <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=600" alt="Tissu" class="w-full h-full object-cover hover:scale-105 transition-transform duration-1000">
                 </div>
